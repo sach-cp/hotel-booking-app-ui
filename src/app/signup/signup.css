@@ -1,0 +1,19 @@
+/* Full-screen background */
+.signup-bg {
+    background: url('/hotel-booking-app-ui/login.jpg') center / cover no-repeat;
+    filter: brightness(0.75);
+  }
+  
+  /* Glassmorphism card */
+  .glass-card {
+    backdrop-filter: blur(18px);
+    background: rgba(255, 255, 255, 0.15);
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    border-radius: 1rem;
+  }
+  
+  /* Optional brand tweaks */
+  .text-brand {
+    color: #032753;
+  }
+  
