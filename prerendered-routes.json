@@ -1,8 +1,0 @@
-{
-  "routes": {
-    "/hotel-booking-app-ui": {},
-    "/hotel-booking-app-ui/home": {},
-    "/hotel-booking-app-ui/login": {},
-    "/hotel-booking-app-ui/signup": {}
-  }
-}
