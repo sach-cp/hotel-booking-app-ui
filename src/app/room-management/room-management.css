@@ -1,0 +1,5 @@
+a.active {
+    background-color: var(--bs-primary);
+    color: #fff !important;
+    border-color: var(--bs-primary);
+}
