@@ -1,0 +1,65 @@
+<nav *ngIf="showMenu" class="navbar navbar-expand-lg navbar-dark bg-primary shadow-sm px-3 px-lg-4">
+    <div class="container-fluid">
+
+        <!-- Logo -->
+        <a class="navbar-brand fw-bold fs-4" routerLink="/home">
+            Hotel Booking Service
+        </a>
+
+        <!-- Mobile toggle -->
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNavbar">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <!-- Nav links -->
+        <div class="collapse navbar-collapse" id="mainNavbar">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0 gap-lg-2">
+
+                <li class="nav-item">
+                    <a class="nav-link d-flex align-items-center gap-2" routerLink="/home" routerLinkActive="active">
+                        <i class="bi bi-house"></i>
+                        Home
+                    </a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link d-flex align-items-center gap-2" routerLink="/hotel-management"
+                        routerLinkActive="active">
+                        <i class="bi bi-building"></i>
+                        Hotels
+                    </a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link d-flex align-items-center gap-2" routerLink="/room-management"
+                        routerLinkActive="active">
+                        <i class="bi bi-door-open"></i>
+                        Rooms
+                    </a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link d-flex align-items-center gap-2" routerLink="/new-booking"
+                        routerLinkActive="active">
+                        <i class="bi bi-calendar-plus"></i>
+                        New Booking
+                    </a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link d-flex align-items-center gap-2" routerLink="/bookings-list"
+                        routerLinkActive="active">
+                        <i class="bi bi-search"></i>
+                        Bookings
+                    </a>
+                </li>
+            </ul>
+
+            <!-- Logout -->
+            <button class="btn btn-outline-light d-flex align-items-center gap-2" (click)="logout()">
+                <i class="bi bi-box-arrow-right"></i>
+                Logout
+            </button>
+        </div>
+    </div>
+</nav>
