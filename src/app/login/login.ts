@@ -8,6 +8,7 @@ import { environment } from '../../environments/environment.development';
 
 @Component({
   selector: 'app-login',
+  standalone: true,
   imports: [CommonModule, ReactiveFormsModule, RouterModule],
   templateUrl: './login.html',
   styleUrl: './login.css',
@@ -52,6 +53,8 @@ export class Login {
           localStorage.setItem('token', token);
           this.token = token;
           this.loginForm.reset();
+          this.router.navigate(['/home']);
+          this.showBootstrapAlert('Login successful!', 'success');
         },
         error: (err) => {
           let msg = 'Login failed. Please try again.';
@@ -67,8 +70,6 @@ export class Login {
     this.alertType = type;
     this.showAlert = true;
 
-    setTimeout(() => {
-      this.showAlert = false;
-    }, 4000);
+    setTimeout(() => { this.showAlert = false; }, 4000);
   }
 }
