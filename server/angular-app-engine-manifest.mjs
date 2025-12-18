@@ -1,6 +1,6 @@
 
 export default {
-  basePath: '/hotel-booking-app-ui',
+  basePath: 'https://sach-cp.github.io/hotel-booking-app-ui',
   supportedLocales: {
   "en-US": ""
 },
