@@ -1,5 +1,5 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit, ViewEncapsulation } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Inject, OnInit, PLATFORM_ID, ViewEncapsulation } from '@angular/core';
+import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { environment } from '../../environments/environment.development';
 import { HotelResponse } from '../hotel-response';
@@ -20,10 +20,12 @@ export class ListAllHotels implements OnInit {
   alertMessage = '';
   alertType: 'success' | 'danger' | '' = '';
 
-  constructor(private http: HttpClient, private cdr: ChangeDetectorRef) { }
+  constructor(@Inject(PLATFORM_ID) private platformId: object, private http: HttpClient, private cdr: ChangeDetectorRef) { }
 
   ngOnInit() {
-    this.getHotels();
+    if (isPlatformBrowser(this.platformId)) {
+      this.getHotels();
+    }
   }
 
   getHotels() {
