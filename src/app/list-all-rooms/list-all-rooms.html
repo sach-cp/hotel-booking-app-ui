@@ -1,0 +1,67 @@
+<div class="container py-5 d-flex flex-column align-items-center">
+
+    <h2 class="text-center mb-4">Search Rooms</h2>
+
+    <!-- 🔍 SEARCH FORM -->
+    <form [formGroup]="roomForm" (ngSubmit)="getRooms()" class="card room-form p-4 mb-4">
+
+        <div class="mb-3 w-100">
+            <label class="form-label fw-semibold">
+                Select Hotel
+            </label>
+
+            <select class="form-select form-select-lg" formControlName="hotelName">
+                <option value="" disabled selected>Select a hotel</option>
+
+                @for (hotel of hotels; track hotel) {
+                <option [value]="hotel">{{ hotel }}</option>
+                }
+            </select>
+        </div>
+
+        <button class="btn btn-primary btn-lg w-100 search-btn" type="submit"
+            [disabled]="!roomForm.valid || isSearching">
+            <i class="bi bi-search me-2"></i>
+            Search
+        </button>
+
+    </form>
+</div>
+
+<!-- 🏨 ROOM RESULTS -->
+@if (roomList && roomList.length > 0) {
+
+<h2 class="text-center mb-4">Rooms</h2>
+
+<div class="container">
+    <div class="row g-4 justify-content-center">
+
+        @for (room of roomList; track room.roomNumber) {
+        <div class="col-12 col-md-6 col-lg-4">
+
+            <div class="card room-card h-100">
+                <div class="card-body room-content">
+
+                    <h5 class="fw-bold mb-3">
+                        Room no. {{ room.roomNumber }}
+                    </h5>
+
+                    <p class="detail">
+                        <i class="bi bi-door-open-fill icon"></i>
+                        {{ room.roomType }}
+                    </p>
+
+                    <p class="detail">
+                        <i class="bi bi-currency-rupee icon"></i>
+                        {{ room.price }}
+                    </p>
+
+                </div>
+            </div>
+
+        </div>
+        }
+
+    </div>
+</div>
+}

@@ -1,0 +1,69 @@
+/* ---------- FORM CARD ---------- */
+.room-form {
+    border-radius: 24px;
+    border: none;
+    max-width: 420px;
+    width: 100%;
+    box-shadow: 0 6px 18px rgba(2, 184, 153, 0.35);
+    background: linear-gradient(180deg,
+            #ffffff 0%,
+            #f8fefe 100%);
+}
+
+/* ---------- SEARCH BUTTON ---------- */
+.search-btn {
+    border-radius: 16px;
+    background: linear-gradient(135deg, #007bff, #00bcd4);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.search-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+}
+
+/* ---------- ROOM CARD (Angular Material style) ---------- */
+.room-card {
+    border: none;
+    border-radius: 14px;
+    background: linear-gradient(180deg,
+            #56d3b4a7 0%,
+            #fafafa 100%);
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.12);
+    transition:
+        transform 0.25s ease,
+        box-shadow 0.25s ease;
+}
+
+/* ✨ Elevation */
+.room-card:hover {
+    transform: translateY(-6px);
+    box-shadow:
+        0 10px 24px rgba(0, 0, 0, 0.18),
+        0 16px 32px rgba(0, 0, 0, 0.12);
+}
+
+/* ✨ Ripple-like feedback */
+.room-card:active {
+    transform: scale(0.97);
+}
+
+/* ---------- CONTENT ---------- */
+.room-content {
+    padding: 18px 20px;
+}
+
+.detail {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 15px;
+    color: #555;
+    margin-bottom: 8px;
+}
+
+.icon {
+    font-size: 20px;
+    color: #007bff;
+}
