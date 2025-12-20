@@ -4,6 +4,7 @@ import { Signup } from './signup/signup';
 import { Homepage } from './homepage/homepage';
 import { HotelManagement } from './hotel-management/hotel-management';
 import { RoomManagement } from './room-management/room-management';
+import { ListAllHotels } from './list-all-hotels/list-all-hotels';
 
 export const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' },
@@ -13,7 +14,7 @@ export const routes: Routes = [
   { path: 'hotel-management', component: HotelManagement,
     children: [
       // { path: 'add', component: AddHotel },
-      // { path: 'list', component: ListAllHotels },
+      { path: 'list', component: ListAllHotels },
       // default view
       { path: '', redirectTo: 'list', pathMatch: 'full' }
     ]

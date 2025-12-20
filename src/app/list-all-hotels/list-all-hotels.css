@@ -1,0 +1,25 @@
+.hotel-card {
+    border: none;
+    border-radius: 12px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.12);
+    transition:
+        transform 0.25s ease,
+        box-shadow 0.25s ease;
+    background: linear-gradient(180deg,
+            rgba(64, 156, 172, 0.986) 0%,
+            rgb(250, 250, 250) 100%);
+}
+
+/* ✨ Angular Material elevation effect */
+.hotel-card:hover {
+    transform: translateY(-6px);
+    box-shadow:
+        0 8px 12px rgba(0, 0, 0, 0.15),
+        0 16px 24px rgba(0, 0, 0, 0.10);
+}
+
+/* ✨ Focus ring like Material */
+.hotel-card:focus-within {
+    outline: 2px solid rgba(13, 110, 253, 0.3);
+    outline-offset: 4px;
+}
