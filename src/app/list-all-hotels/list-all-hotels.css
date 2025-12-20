@@ -6,7 +6,7 @@
         transform 0.25s ease,
         box-shadow 0.25s ease;
     background: linear-gradient(180deg,
-            rgba(64, 156, 172, 0.986) 0%,
+            rgba(64, 156, 172, 0.683) 0%,
             rgb(250, 250, 250) 100%);
 }
 

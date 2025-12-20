@@ -1,0 +1,96 @@
+<div class="container py-5">
+
+    <div class="form-wrapper mx-auto text-center">
+        <h4 class="mb-4"> Please fill the details and submit to add new hotel </h4>
+
+        <!-- Bootstrap Alert -->
+        @if (alertMessage) {
+        <div class="alert alert-{{ alertType }} alert-dismissible fade show" role="alert">
+            {{ alertMessage }}
+            <button type="button" class="btn-close" (click)="clearMessage()"></button>
+        </div>
+        }
+
+        <form [formGroup]="hotelForm" (ngSubmit)="onSubmit()" class="card hotel-form p-4">
+
+            <div class="row g-3">
+
+                <!-- Hotel Name -->
+                <div class="col-md-6">
+                    <input type="text" class="form-control" formControlName="hotelName"
+                        placeholder="Enter hotel name" />
+                    @if (hotelForm.get('hotelName')?.touched && hotelForm.get('hotelName')?.invalid) {
+                    <div class="invalid-feedback d-block">
+                        Hotel name is required (min 2 chars)
+                    </div>
+                    }
+                </div>
+
+                <!-- Address Details -->
+                <div class="col-md-6">
+                    <input type="text" class="form-control" formControlName="addressDetails"
+                        placeholder="Enter address details" />
+                    @if (hotelForm.get('addressDetails')?.touched && hotelForm.get('addressDetails')?.invalid) {
+                    <div class="invalid-feedback d-block">
+                        Address details are required
+                    </div>
+                    }
+                </div>
+
+                <!-- City -->
+                <div class="col-md-6">
+                    <input type="text" class="form-control" formControlName="city" placeholder="Enter city" />
+                </div>
+
+                <!-- State -->
+                <div class="col-md-6">
+                    <input class="form-control" formControlName="state" placeholder="Enter state" />
+                </div>
+
+                <!-- Country -->
+                <div class="col-md-6">
+                    <input class="form-control" formControlName="country" placeholder="Enter country" />
+                </div>
+
+                <!-- Pin Code -->
+                <div class="col-md-6">
+                    <input class="form-control" formControlName="pinCode" placeholder="Enter pincode" />
+                    @if (hotelForm.get('pinCode')?.hasError('pattern')) {
+                    <div class="invalid-feedback d-block">
+                        Enter a valid 6-digit pin code
+                    </div>
+                    }
+                </div>
+
+                <!-- Phone -->
+                <div class="col-md-6">
+                    <input class="form-control" formControlName="phoneNumber" placeholder="Enter phone number" />
+                    @if (hotelForm.get('phoneNumber')?.hasError('pattern')) {
+                    <div class="invalid-feedback d-block">
+                        Enter a valid 10-digit number
+                    </div>
+                    }
+                </div>
+
+                <!-- Email -->
+                <div class="col-md-6">
+                    <input class="form-control" formControlName="emailId" placeholder="Enter email id" />
+                    @if (hotelForm.get('emailId')?.hasError('email')) {
+                    <div class="invalid-feedback d-block">
+                        Enter a valid email
+                    </div>
+                    }
+                </div>
+
+                <!-- Submit -->
+                <div class="col-12 text-center mt-4">
+                    <button class="btn btn-primary btn-lg submit-btn" type="submit"
+                        [disabled]="hotelForm.invalid || isSubmitting">
+                        {{ isSubmitting ? 'Submitting...' : 'Submit' }}
+                    </button>
+                </div>
+
+            </div>
+        </form>
+    </div>
+</div>
