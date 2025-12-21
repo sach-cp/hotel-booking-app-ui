@@ -1,0 +1,26 @@
+/* Center heading */
+.room-heading {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 24px;
+    text-align: center;
+}
+
+/* Form card */
+.room-form {
+    max-width: 360px;
+    width: 100%;
+    margin: 0 auto;
+    padding: 16px;
+    background: rgba(255, 255, 255, 0.96);
+    border-radius: 8px;
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.12);
+    font-size: 16px;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .room-form {
+        max-width: 90%;
+    }
+}

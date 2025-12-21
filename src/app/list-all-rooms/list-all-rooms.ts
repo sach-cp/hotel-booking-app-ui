@@ -1,5 +1,5 @@
-import { Component, ChangeDetectionStrategy, ViewEncapsulation, ChangeDetectorRef } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { Component, ChangeDetectionStrategy, ViewEncapsulation, ChangeDetectorRef, Inject, PLATFORM_ID } from '@angular/core';
+import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { FormControl, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { environment } from '../../environments/environment.development';
@@ -26,19 +26,16 @@ export class ListAllRooms {
   hotelList: HotelResponse[] = [];
   hotels: string[] = [];
 
-  isSearching = false;
-
   // Bootstrap alert
   alertMessage = '';
   alertType: 'success' | 'danger' | '' = '';
 
-  constructor(
-    private http: HttpClient,
-    private cdr: ChangeDetectorRef
-  ) { }
+  constructor(@Inject(PLATFORM_ID) private platformId: object, private http: HttpClient, private cdr: ChangeDetectorRef) { }
 
   ngOnInit() {
-    this.getHotels();
+    if (isPlatformBrowser(this.platformId)) {
+      this.getHotels();
+    }
   }
 
   getHotels() {
@@ -74,8 +71,6 @@ export class ListAllRooms {
       return;
     }
 
-    this.isSearching = true;
-
     const headers = new HttpHeaders().set('Accept', 'application/json');
     const params = new HttpParams().set('hotelId', selectedHotel.hotelId);
 
@@ -95,9 +90,6 @@ export class ListAllRooms {
         },
         error: () => {
           this.showMessage('Failed to retrieve room data.', 'danger');
-        },
-        complete: () => {
-          this.isSearching = false;
         }
       });
   }

@@ -1,0 +1,68 @@
+<div class="room-heading">
+    <h3>Please fill the form and submit to add new room</h3>
+</div>
+
+<div class="add-room d-flex justify-content-center">
+    <form [formGroup]="roomForm" (ngSubmit)="onSubmit()" class="room-form border">
+
+        <!-- Hotel Dropdown -->
+        <div class="mb-3">
+            <select class="form-select" formControlName="hotelId">
+                <option value="" disabled selected>Select Hotel</option>
+
+                @for (hotel of hotelList; track hotel.hotelId) {
+                <option [value]="hotel.hotelId">
+                    {{ hotel.hotelName }}
+                </option>
+                }
+            </select>
+
+            <div class="text-danger mt-1"
+                *ngIf="roomForm.get('hotelId')?.touched && roomForm.get('hotelId')?.hasError('required')">
+                Hotel selection is required
+            </div>
+        </div>
+
+
+        <!-- Room Type -->
+        <div class="mb-3">
+            <input type="text" class="form-control" formControlName="roomType" placeholder="Enter room type" />
+            <div class="text-danger mt-1"
+                *ngIf="roomForm.get('roomType')?.touched && roomForm.get('roomType')?.hasError('required')">
+                Room type is required
+            </div>
+            <div class="text-danger mt-1"
+                *ngIf="roomForm.get('roomType')?.touched && roomForm.get('roomType')?.hasError('minlength')">
+                Minimum 2 characters required
+            </div>
+        </div>
+
+        <!-- Room Number -->
+        <div class="mb-3">
+            <input type="text" class="form-control" formControlName="roomNumber" placeholder="Enter room number" />
+            <div class="text-danger mt-1"
+                *ngIf="roomForm.get('roomNumber')?.touched && roomForm.get('roomNumber')?.hasError('required')">
+                Room number is required
+            </div>
+        </div>
+
+        <!-- Price -->
+        <div class="mb-4">
+            <input type="number" class="form-control" formControlName="price" placeholder="Enter price" />
+            <div class="text-danger mt-1"
+                *ngIf="roomForm.get('price')?.touched && roomForm.get('price')?.hasError('required')">
+                Room price is required
+            </div>
+        </div>
+
+        <!-- Submit -->
+        <button type="submit" class="btn btn-primary w-100" [disabled]="roomForm.invalid || isSubmitting">
+            <span *ngIf="!isSubmitting">Submit</span>
+            <span *ngIf="isSubmitting">
+                <span class="spinner-border spinner-border-sm me-2"></span>
+                Submitting...
+            </span>
+        </button>
+
+    </form>
+</div>

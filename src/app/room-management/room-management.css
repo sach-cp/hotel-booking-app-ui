@@ -3,3 +3,8 @@ a.active {
     color: #fff !important;
     border-color: var(--bs-primary);
 }
+
+.bg-white {
+    --bs-bg-opacity: 1;
+    background-color: #dee2e6 !important;
+}
