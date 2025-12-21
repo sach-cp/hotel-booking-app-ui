@@ -1,0 +1,142 @@
+<!-- ROOM + USER GRID -->
+<div class="container my-4">
+    <div class="row g-4">
+
+        <!-- LEFT: ROOM + PRICE -->
+        <div class="col-lg-6">
+
+            <h3 class="fw-bold mb-3">Availability</h3>
+
+            <!-- Availability Box -->
+            <div class="d-flex border border-warning rounded mb-3">
+
+                <div class="flex-fill d-flex align-items-center gap-2 p-3 border-end border-warning">
+                    <i class="bi bi-calendar-event"></i>
+                    <span>
+                        {{ checkInDate | date:'EEE, MMM d' }} —
+                        {{ checkOutDate | date:'EEE, MMM d' }}
+                    </span>
+                </div>
+
+                <div class="flex-fill d-flex align-items-center gap-2 p-3">
+                    <i class="bi bi-people"></i>
+                    <span>{{ numberOfTravellers }}</span>
+                </div>
+
+            </div>
+
+            <!-- Room + Price Cards -->
+            <div class="row g-3">
+
+                <!-- ROOM CARD -->
+                <div class="col-md-6">
+                    <div class="card shadow-sm h-100 border-success">
+                        <div class="card-body">
+                            <p class="fw-bold fs-5 mb-2 text-primary">{{ hotelName }}</p>
+
+                            <h5 class="fw-bold">Room {{ roomNumber }}</h5>
+
+                            <p class="mb-1">
+                                <i class="bi bi-door-closed text-primary"></i>
+                                {{ roomType }}
+                            </p>
+
+                            <p class="mb-0 text-success fw-semibold">
+                                ₹ {{ price }}
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- PRICE CARD -->
+                <div class="col-md-6">
+                    <div class="card shadow-sm h-100 border-info">
+                        <div class="card-body text-center">
+                            <h5 class="fw-bold">Total Price</h5>
+                            <p class="display-6 fw-semibold text-success">
+                                ₹ {{ totalPrice }}
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- RIGHT: USER FORM -->
+        <div class="col-lg-6">
+            <h3 class="fw-bold mb-3">Fill user booking details</h3>
+
+            <form [formGroup]="userForm" (ngSubmit)="onSubmit()" class="card shadow-sm p-4">
+
+                <div class="row g-3">
+
+                    <div class="col-md-6">
+                        <input type="text" class="form-control" placeholder="First name" formControlName="firstName">
+                    </div>
+
+                    <div class="col-md-6">
+                        <input type="text" class="form-control" placeholder="Last name" formControlName="lastName">
+                    </div>
+
+                    <div class="col-12">
+                        <input type="text" class="form-control" placeholder="Address details"
+                            formControlName="addressDetails">
+                    </div>
+
+                    <div class="col-md-6">
+                        <input type="text" class="form-control" placeholder="City" formControlName="city">
+                    </div>
+
+                    <div class="col-md-6">
+                        <input type="text" class="form-control" placeholder="State" formControlName="state">
+                    </div>
+
+                    <div class="col-md-6">
+                        <input type="text" class="form-control" placeholder="Country" formControlName="country">
+                    </div>
+
+                    <div class="col-md-6">
+                        <input type="text" class="form-control" placeholder="Pincode" formControlName="pincode">
+                    </div>
+
+                    <div class="col-md-6">
+                        <input type="text" class="form-control" placeholder="Phone number"
+                            formControlName="phoneNumber">
+                    </div>
+
+                    <div class="col-md-6">
+                        <input type="text" class="form-control" placeholder="Purpose of visit"
+                            formControlName="purposeOfVisit">
+                    </div>
+
+                    <div class="col-md-6">
+                        <input type="number" class="form-control" placeholder="Advance amount"
+                            formControlName="advanceAmount">
+                    </div>
+
+                    <div class="col-md-6">
+                        <input type="text" class="form-control" placeholder="Payment mode"
+                            formControlName="paymentMode">
+                    </div>
+
+                    <div class="col-md-6">
+                        <input type="text" class="form-control" placeholder="Payment status"
+                            formControlName="paymentStatus">
+                    </div>
+
+                </div>
+
+                <button class="btn btn-primary w-100 mt-4" type="submit" [disabled]="userForm.invalid || isSubmitting">
+                    @if (!isSubmitting) {
+                    <span>Submit</span>
+                    } @else {
+                    <span class="spinner-border spinner-border-sm"></span>
+                    }
+                </button>
+
+            </form>
+        </div>
+
+    </div>
+</div>

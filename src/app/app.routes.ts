@@ -9,13 +9,15 @@ import { ListAllRooms } from './list-all-rooms/list-all-rooms';
 import { AddHotel } from './add-hotel/add-hotel';
 import { NewBooking } from './new-booking/new-booking';
 import { AddRoom } from './add-room/add-room';
+import { ConfirmBooking } from './confirm-booking/confirm-booking';
 
 export const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' },
-  { path: 'login', title: 'Login', component: Login },
-  { path: 'signup', title: 'Sign Up', component: Signup },
-  { path: 'home', title: 'Home Page', component: Homepage },
-  { path: 'hotel-management', component: HotelManagement,
+  { path: 'login', component: Login },
+  { path: 'signup', component: Signup },
+  { path: 'home', component: Homepage },
+  {
+    path: 'hotel-management', component: HotelManagement,
     children: [
       { path: 'add', component: AddHotel },
       { path: 'list', component: ListAllHotels },
@@ -23,13 +25,15 @@ export const routes: Routes = [
       { path: '', redirectTo: 'list', pathMatch: 'full' }
     ]
   },
-  { path: 'room-management', component: RoomManagement,
+  {
+    path: 'room-management', component: RoomManagement,
     children: [
-      { path: 'add', component: AddRoom},
+      { path: 'add', component: AddRoom },
       { path: 'list', component: ListAllRooms },
       // default view
       { path: '', redirectTo: 'list', pathMatch: 'full' }
     ]
   },
-  { path: 'new-booking', title: 'New Booking', component: NewBooking }
+  { path: 'new-booking', component: NewBooking },
+  { path: 'confirm-booking', component: ConfirmBooking },
 ];

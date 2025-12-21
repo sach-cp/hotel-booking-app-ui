@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component} from '@angular/core';
+import { ChangeDetectorRef, Component } from '@angular/core';
 import { FormGroup, FormControl, Validators, ReactiveFormsModule } from '@angular/forms';
 import { environment } from '../../environments/environment.development';
 import { CommonModule } from '@angular/common';
@@ -131,6 +131,18 @@ export class NewBooking {
       }
     });
   }
+
+  onReset() {
+    this.bookingForm.reset({
+      destination: '',
+      checkin: '',
+      checkout: '',
+      travellers: ''
+    });
+
+    this.roomList = [];
+  }
+
 
   showMessage(message: string, type: 'success' | 'danger') {
     this.alertMessage = message;
