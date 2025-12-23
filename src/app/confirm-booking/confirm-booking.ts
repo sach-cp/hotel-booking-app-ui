@@ -5,6 +5,8 @@ import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angula
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { BookingRequest } from '../booking-request';
 import { environment } from '../../environments/environment.development';
+import { BookingResponse } from '../booking-response';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-confirm-booking',
@@ -47,7 +49,8 @@ export class ConfirmBooking {
     paymentStatus: new FormControl('', Validators.required)
   });
 
-  constructor(private route: ActivatedRoute, private http: HttpClient) { }
+  constructor(private route: ActivatedRoute, private http: HttpClient, private router: Router) { }
+  bookingResponse: BookingResponse[] = [];
 
   alertMessage = '';
   alertType: 'success' | 'danger' | '' = '';
@@ -118,13 +121,18 @@ export class ConfirmBooking {
 
     // Set headers
     const headers = new HttpHeaders().set('Content-Type', 'application/json');
-    this.http.post(`${this.hotelServiceUrl}/api/v1/bookings/rooms/${this.roomId}`, bookingData, {
-      headers, responseType: 'text'
+    this.http.post<BookingResponse>(`${this.hotelServiceUrl}/api/v1/bookings/rooms/${this.roomId}`, bookingData, {
+      headers
     }).subscribe({
-      next: (responseText: string) => {
-        console.log('✅ Server response (text):', responseText);
+      next: (response: BookingResponse) => {
+        console.log('✅ Booking successful:', response);
+
+        // Navigate after success
+        this.router.navigate(['/booking-success'], {
+          state: { booking: response }
+        });
+
         this.userForm.reset();
-        alert('Room booked successfully!');
       },
       error: (err) => {
         console.error('❌ Error sending booking data:', err);
