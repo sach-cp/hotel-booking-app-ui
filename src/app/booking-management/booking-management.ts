@@ -6,6 +6,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { BookingResponse } from '../booking-response';
 import { BookingSummaryResponse } from '../booking-summary-response';
 import { environment } from '../../environments/environment.development';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-booking-management',
@@ -20,7 +21,7 @@ export class BookingManagement implements OnInit {
   booking: BookingResponse | null = null;
   bookings: BookingSummaryResponse[] = [];
 
-  constructor(private fb: FormBuilder, private http: HttpClient) { }
+  constructor(private fb: FormBuilder, private http: HttpClient, private router: Router) { }
 
   ngOnInit(): void {
     this.filterForm = this.fb.group({
@@ -117,5 +118,15 @@ export class BookingManagement implements OnInit {
 
 
   onReset() { this.filterForm.reset({ searchType: 'bookingId' }); }
+
+  update(booking: BookingResponse) {
+    this.router.navigate(['/update-booking'], {
+      state: { booking }
+    });
+  }
+
+  delete(booking: BookingResponse) {
+    console.log('Delete booking', booking);
+  }
 
 }

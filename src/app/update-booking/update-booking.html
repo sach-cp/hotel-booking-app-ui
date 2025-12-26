@@ -1,0 +1,80 @@
+<div class="container py-4">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+
+            <div class="card shadow-sm">
+                <div class="card-body">
+
+                    <h4 class="mb-4 fw-bold">Update Booking</h4>
+
+                    <form *ngIf="bookingForm" [formGroup]="bookingForm" (ngSubmit)="onUpdate()">
+
+                        <div class="mb-3">
+                            <label class="form-label">Booking ID</label>
+                            <input class="form-control" formControlName="bookingId" />
+                        </div>
+
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <label class="form-label">Check-In Date</label>
+                                <input type="date" class="form-control" formControlName="checkInDate" />
+                            </div>
+
+                            <div class="col-md-6">
+                                <label class="form-label">Check-Out Date</label>
+                                <input type="date" class="form-control" formControlName="checkOutDate" />
+                            </div>
+                        </div>
+
+                        <div class="mt-3">
+                            <label class="form-label">Number of Persons</label>
+                            <input type="number" class="form-control" formControlName="numberOfPersons" />
+                        </div>
+
+                        <div class="mt-3">
+                            <label class="form-label">Purpose of Visit</label>
+                            <input class="form-control" formControlName="purposeOfVisit" />
+                        </div>
+
+                        <div class="row g-3 mt-2">
+                            <div class="col-md-6">
+                                <label class="form-label">Status</label>
+                                <select class="form-select" formControlName="status">
+                                    <option>CONFIRMED</option>
+                                    <option>CANCELLED</option>
+                                    <option>CHECKED_IN</option>
+                                </select>
+                            </div>
+
+                            <div class="col-md-6">
+                                <label class="form-label">Payment Status</label>
+                                <select class="form-select" formControlName="paymentStatus">
+                                    <option>PAID</option>
+                                    <option>PENDING</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="mt-3">
+                            <label class="form-label">Advance Amount</label>
+                            <input type="number" class="form-control" formControlName="advanceAmount" />
+                        </div>
+
+                        <div class="d-flex gap-3 mt-4">
+                            <button class="btn btn-success flex-fill" type="submit" [disabled]="bookingForm.invalid">
+                                <i class="bi bi-check-circle me-1"></i> Save
+                            </button>
+
+                            <button class="btn btn-outline-secondary flex-fill" type="button" (click)="onCancel()">
+                                Cancel
+                            </button>
+                        </div>
+
+                    </form>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
