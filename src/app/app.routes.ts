@@ -11,6 +11,7 @@ import { NewBooking } from './new-booking/new-booking';
 import { AddRoom } from './add-room/add-room';
 import { ConfirmBooking } from './confirm-booking/confirm-booking';
 import { BookingSuccess } from './booking-success/booking-success';
+import { BookingManagement } from './booking-management/booking-management';
 
 export const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' },
@@ -38,4 +39,5 @@ export const routes: Routes = [
   { path: 'new-booking', component: NewBooking },
   { path: 'confirm-booking', component: ConfirmBooking },
   { path: 'booking-success', component: BookingSuccess },
+  { path: 'booking-management', component: BookingManagement },
 ];
