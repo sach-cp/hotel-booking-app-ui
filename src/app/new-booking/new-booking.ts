@@ -1,7 +1,7 @@
-import { ChangeDetectorRef, Component } from '@angular/core';
+import { ChangeDetectorRef, Component, Inject, PLATFORM_ID } from '@angular/core';
 import { FormGroup, FormControl, Validators, ReactiveFormsModule } from '@angular/forms';
 import { environment } from '../../environments/environment.development';
-import { CommonModule } from '@angular/common';
+import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { RoomResponse } from '../room-response';
@@ -31,10 +31,12 @@ export class NewBooking {
   alertMessage = '';
   alertType: 'success' | 'danger' | '' = '';
 
-  constructor(private http: HttpClient, private cdr: ChangeDetectorRef, private router: Router) { }
+  constructor(@Inject(PLATFORM_ID) private platformId: object, private http: HttpClient, private cdr: ChangeDetectorRef, private router: Router) { }
 
   ngOnInit() {
-    this.getHotels();
+    if (isPlatformBrowser(this.platformId)) {
+      this.getHotels();
+    }
   }
 
   getHotels() {
