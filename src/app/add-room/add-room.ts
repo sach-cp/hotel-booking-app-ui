@@ -4,6 +4,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { ReactiveFormsModule, FormGroup, FormControl, Validators } from '@angular/forms';
 import { environment } from '../../environments/environment.development';
 import { HotelResponse } from '../hotel-response';
+import { RoomResponse } from '../room-response';
 
 @Component({
   selector: 'app-add-room',
@@ -13,7 +14,7 @@ import { HotelResponse } from '../hotel-response';
   styleUrl: './add-room.css',
 })
 export class AddRoom {
-  hotelServiceUrl = environment.hotelServiceUrl;
+  apiGatewayUrl = environment.apiGatewayUrl;
   isSubmitting = false;
   hotelList: HotelResponse[] = [];
 
@@ -32,10 +33,12 @@ export class AddRoom {
   alertType: 'success' | 'danger' | '' = '';
 
   getHotels() {
-    const headers = new HttpHeaders().set('Accept', 'application/json');
+    const headers = new HttpHeaders()
+      .set('Accept', 'application/json')
+      .set('Authorization', `Bearer ${localStorage.getItem('token')}`);
 
     this.http
-      .get<HotelResponse[]>(`${this.hotelServiceUrl}/api/v1/hotels`, { headers })
+      .get<HotelResponse[]>(`${this.apiGatewayUrl}/api/v1/hotels`, { headers })
       .subscribe({
         next: (response) => {
           this.hotelList = response;
@@ -73,17 +76,25 @@ export class AddRoom {
     this.isSubmitting = true;
     const roomData = this.roomForm.value;
 
-    const headers = new HttpHeaders({
-      'Content-Type': 'application/json',
-      'Accept': 'application/json'
-    });
+    const headers = new HttpHeaders()
+      .set('Content-Type', 'application/json')
+      .set('Accept', 'application/json')
+      .set('Authorization', `Bearer ${localStorage.getItem('token')}`);
 
-    this.http.post(`${this.hotelServiceUrl}/api/v1/hotels/${roomData.hotelId}/rooms`, roomData,
-      { headers, responseType: 'text' }
+    this.http.post<RoomResponse>(`${this.apiGatewayUrl}/api/v1/hotels/${roomData.hotelId}/rooms`, roomData,
+      { headers, observe: 'response' }
     ).subscribe({
-      next: () => {
+      next: (response) => {
+        const room: RoomResponse | null = response.body;
+        const location = response.headers.get('Location');
+
         this.roomForm.reset();
-        alert('Room added successfully!');
+
+        this.showMessage(`Room added successfully!`, 'success');
+
+        console.log('Room:', room);
+        console.log('Location:', location);
+
       },
       error: () => {
         alert('Failed to add room');

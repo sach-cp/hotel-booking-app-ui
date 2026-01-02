@@ -16,7 +16,7 @@ import { HotelResponse } from '../hotel-response';
   changeDetection: ChangeDetectionStrategy.Default,
 })
 export class ListAllRooms {
-  hotelServiceUrl = environment.hotelServiceUrl;
+  apiGatewayUrl = environment.apiGatewayUrl;
 
   roomForm = new FormGroup({
     hotelName: new FormControl('', Validators.required)
@@ -39,9 +39,11 @@ export class ListAllRooms {
   }
 
   getHotels() {
-    const headers = new HttpHeaders().set('Accept', 'application/json');
+    const headers = new HttpHeaders()
+    .set('Accept', 'application/json')
+    .set('Authorization', `Bearer ${localStorage.getItem('token')}`);
 
-    this.http.get<HotelResponse[]>(`${this.hotelServiceUrl}/api/v1/hotels`, { headers })
+    this.http.get<HotelResponse[]>(`${this.apiGatewayUrl}/api/v1/hotels`, { headers })
       .subscribe({
         next: (response) => {
           this.hotelList = response;
@@ -71,12 +73,15 @@ export class ListAllRooms {
       return;
     }
 
-    const headers = new HttpHeaders().set('Accept', 'application/json');
+    const headers = new HttpHeaders()
+    .set('Accept', 'application/json')
+    .set('Authorization', `Bearer ${localStorage.getItem('token')}`);
+    
     const params = new HttpParams().set('hotelId', selectedHotel.hotelId);
 
     this.http
       .get<RoomResponse[]>(
-        `${this.hotelServiceUrl}/api/v1/hotels/${selectedHotel.hotelId}/rooms`,
+        `${this.apiGatewayUrl}/api/v1/hotels/${selectedHotel.hotelId}/rooms`,
         { headers, params }
       )
       .subscribe({

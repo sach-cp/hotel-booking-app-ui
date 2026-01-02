@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { ReactiveFormsModule } from '@angular/forms';
@@ -14,14 +14,17 @@ import { Router } from '@angular/router';
   imports: [CommonModule, ReactiveFormsModule],
   templateUrl: './booking-management.html',
   styleUrl: './booking-management.css',
+  encapsulation: ViewEncapsulation.None,
+  changeDetection: ChangeDetectionStrategy.Default,
 })
 export class BookingManagement implements OnInit {
-  hotelServiceUrl = environment.hotelServiceUrl;
+  apiGatewayUrl = environment.apiGatewayUrl;
   filterForm!: FormGroup;
   booking: BookingResponse | null = null;
   bookings: BookingSummaryResponse[] = [];
 
-  constructor(private fb: FormBuilder, private http: HttpClient, private router: Router) { }
+  constructor(private fb: FormBuilder, private http: HttpClient, private router: Router,
+    private cdr: ChangeDetectorRef) { }
 
   ngOnInit(): void {
     this.filterForm = this.fb.group({
@@ -55,7 +58,9 @@ export class BookingManagement implements OnInit {
     }
 
     console.log('Search Payload', payload);
-    const headers = new HttpHeaders().set('Accept', 'application/json');
+    const headers = new HttpHeaders()
+    .set('Accept', 'application/json')
+    .set('Authorization', `Bearer ${localStorage.getItem('token')}`);
 
     // ✅ 1. Booking ID → Single booking API
     if (searchType === 'bookingId' && value) {
@@ -69,10 +74,11 @@ export class BookingManagement implements OnInit {
   }
 
   getBookingById(bookingId: string, headers: HttpHeaders) {
-    this.http.get<BookingResponse>(`${this.hotelServiceUrl}/api/v1/bookings/${bookingId}`, { headers })
+    this.http.get<BookingResponse>(`${this.apiGatewayUrl}/api/v1/bookings/${bookingId}`, { headers })
       .subscribe({
         next: (res) => {
           this.booking = res;
+          this.cdr.detectChanges();
           this.bookings = [];
         },
         error: (err) => console.error(err)
@@ -80,10 +86,11 @@ export class BookingManagement implements OnInit {
   }
 
   searchBookings(params: any, headers: HttpHeaders) {
-    this.http.get<BookingSummaryResponse[]>(`${this.hotelServiceUrl}/api/v1/bookings/search`, { headers, params })
+    this.http.get<BookingSummaryResponse[]>(`${this.apiGatewayUrl}/api/v1/bookings/search`, { headers, params })
       .subscribe({
         next: (res) => {
           this.bookings = res;
+          this.cdr.detectChanges();
           this.booking = null;
         },
         error: (err) => console.error(err)

@@ -15,7 +15,10 @@ import { HotelResponse } from '../hotel-response';
   styleUrl: './new-booking.css',
 })
 export class NewBooking {
-  hotelServiceUrl = environment.hotelServiceUrl;
+  apiGatewayUrl = environment.apiGatewayUrl;
+  today: string = '';
+  checkin: string | null = null;
+
   bookingForm = new FormGroup({
     destination: new FormControl('', Validators.required),
     checkin: new FormControl('', Validators.required),
@@ -34,15 +37,25 @@ export class NewBooking {
   constructor(@Inject(PLATFORM_ID) private platformId: object, private http: HttpClient, private cdr: ChangeDetectorRef, private router: Router) { }
 
   ngOnInit() {
+    const now = new Date();
+    this.today = now.toISOString().split('T')[0];
+
+    this.bookingForm.get('checkin')?.valueChanges.subscribe(value => {
+      this.checkin = value;
+      this.bookingForm.get('checkout')?.setValue('');
+    });
+
     if (isPlatformBrowser(this.platformId)) {
       this.getHotels();
     }
   }
 
   getHotels() {
-    const headers = new HttpHeaders().set('Accept', 'application/json');
+    const headers = new HttpHeaders()
+      .set('Accept', 'application/json')
+      .set('Authorization', `Bearer ${localStorage.getItem('token')}`);
 
-    this.http.get<HotelResponse[]>(`${this.hotelServiceUrl}/api/v1/hotels`, { headers })
+    this.http.get<HotelResponse[]>(`${this.apiGatewayUrl}/api/v1/hotels`, { headers })
       .subscribe({
         next: (response) => {
           this.hotelList = response;
@@ -61,7 +74,9 @@ export class NewBooking {
 
   onSearch() {
     const hotelName = this.bookingForm.value.destination;
-    const headers = new HttpHeaders().set('Accept', 'application/json');
+    const headers = new HttpHeaders()
+    .set('Accept', 'application/json')
+    .set('Authorization', `Bearer ${localStorage.getItem('token')}`);
 
     const formatDate = (d: any) => d ? new Date(d).toISOString().split('T')[0] : '';
     const selectedHotel = this.hotelList.find(hotel => hotel.hotelName.toLowerCase() === hotelName!.toLowerCase());
@@ -75,7 +90,7 @@ export class NewBooking {
       .set('checkInDate', formatDate(this.bookingForm.value.checkin))
       .set('checkOutDate', formatDate(this.bookingForm.value.checkout));
 
-    this.http.get<RoomResponse[]>(`${this.hotelServiceUrl}/api/v1/hotels/${hotelId}/rooms`, { headers, params })
+    this.http.get<RoomResponse[]>(`${this.apiGatewayUrl}/api/v1/hotels/${hotelId}/rooms`, { headers, params })
       .subscribe({
         next: (response) => {
           this.roomList = response;

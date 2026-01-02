@@ -4,6 +4,7 @@ import { FormGroup, FormControl, ReactiveFormsModule, Validators } from '@angula
 import { CommonModule } from '@angular/common';
 import { environment } from '../../environments/environment.development';
 import { AddHotelRequest } from '../add-hotel-request';
+import { HotelResponse } from '../hotel-response';
 
 @Component({
   selector: 'app-add-hotel',
@@ -13,7 +14,7 @@ import { AddHotelRequest } from '../add-hotel-request';
   styleUrl: './add-hotel.css',
 })
 export class AddHotel {
-  apiGatewayUrl = environment.hotelServiceUrl;
+  apiGatewayUrl = environment.apiGatewayUrl;
   isSubmitting = false;
 
   alertMessage = '';
@@ -30,7 +31,7 @@ export class AddHotel {
     emailId: new FormControl('', [Validators.required, Validators.email]),
   });
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) { }
 
   onSubmit() {
     if (this.hotelForm.invalid || this.isSubmitting) return;
@@ -55,20 +56,34 @@ export class AddHotel {
       .set('Accept', 'application/json')
       .set('Authorization', `Bearer ${localStorage.getItem('token')}`);
 
-    this.http.post(`${this.apiGatewayUrl}/api/v1/hotels`, hotelData, {
-      headers, responseType: 'text'
-    }).subscribe({
-      next: (res) => {
-        this.hotelForm.reset();
-        this.showMessage(res || 'Hotel added successfully!', 'success');
-      },
-      error: () => {
-        this.showMessage('Failed to add hotel.', 'danger');
-      },
-      complete: () => {
-        this.isSubmitting = false;
-      }
-    });
+    this.http.post<HotelResponse>(`${this.apiGatewayUrl}/api/v1/hotels`, hotelData,
+      { headers, observe: 'response' })
+      .subscribe({
+        next: (response) => {
+
+          const hotel: HotelResponse | null = response.body;
+          const location = response.headers.get('Location');
+
+          this.hotelForm.reset();
+
+          this.showMessage(
+            `Hotel "${hotel?.hotelName}" added successfully!`,
+            'success'
+          );
+
+          console.log('Hotel:', hotel);
+          console.log('Location:', location);
+        },
+        error: (err) => {
+          this.showMessage(
+            err?.error?.message || 'Failed to add hotel.',
+            'danger'
+          );
+        },
+        complete: () => {
+          this.isSubmitting = false;
+        }
+      });
   }
 
   showMessage(message: string, type: 'success' | 'danger') {

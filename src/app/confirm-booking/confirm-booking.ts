@@ -16,7 +16,7 @@ import { Router } from '@angular/router';
   styleUrl: './confirm-booking.css',
 })
 export class ConfirmBooking {
-  hotelServiceUrl = environment.hotelServiceUrl;
+  apiGatewayUrl = environment.apiGatewayUrl;
   isSubmitting = false;
 
   hotelName: string = '';
@@ -120,8 +120,11 @@ export class ConfirmBooking {
     this.isSubmitting = true;
 
     // Set headers
-    const headers = new HttpHeaders().set('Content-Type', 'application/json');
-    this.http.post<BookingResponse>(`${this.hotelServiceUrl}/api/v1/bookings/rooms/${this.roomId}`, bookingData, {
+    const headers = new HttpHeaders()
+    .set('Content-Type', 'application/json')
+    .set('Authorization', `Bearer ${localStorage.getItem('token')}`);
+
+    this.http.post<BookingResponse>(`${this.apiGatewayUrl}/api/v1/bookings/rooms/${this.roomId}`, bookingData, {
       headers
     }).subscribe({
       next: (response: BookingResponse) => {

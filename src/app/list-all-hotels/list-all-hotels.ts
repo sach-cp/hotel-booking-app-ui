@@ -14,7 +14,7 @@ import { HotelResponse } from '../hotel-response';
   changeDetection: ChangeDetectionStrategy.Default,
 })
 export class ListAllHotels implements OnInit {
-  hotelServiceUrl = environment.hotelServiceUrl;
+  apiGatewayUrl = environment.apiGatewayUrl;
   hotelList: HotelResponse[] = [];
 
   alertMessage = '';
@@ -29,10 +29,12 @@ export class ListAllHotels implements OnInit {
   }
 
   getHotels() {
-    const headers = new HttpHeaders().set('Accept', 'application/json');
+    const headers = new HttpHeaders()
+    .set('Accept', 'application/json')
+    .set('Authorization', `Bearer ${localStorage.getItem('token')}`);
 
     this.http
-      .get<HotelResponse[]>(`${this.hotelServiceUrl}/api/v1/hotels`, { headers })
+      .get<HotelResponse[]>(`${this.apiGatewayUrl}/api/v1/hotels`, { headers })
       .subscribe({
         next: (response) => {
           this.hotelList = response;

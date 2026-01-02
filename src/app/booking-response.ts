@@ -5,7 +5,7 @@ export interface BookingResponse {
     hotelName: string;
     roomType: string;
     roomNumber: number;
-    checkInDate: string;   // ISO date string (yyyy-MM-dd)
+    checkInDate: string;
     checkOutDate: string;
     bookingDate: string;
     numberOfPersons: number;

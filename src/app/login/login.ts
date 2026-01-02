@@ -47,19 +47,28 @@ export class Login {
       password: this.loginForm.value.password
     };
 
-    this.http.post(`${this.apiGatewayUrl}/api/v1/users/login`, loginData, { responseType: 'text' })
+    this.http.post<{ token: string }>(`${this.apiGatewayUrl}/api/v1/users/login`, loginData)
       .subscribe({
-        next: (token: string) => {
-          localStorage.setItem('token', token);
-          this.token = token;
+        next: (res) => {
+          console.log('✅ Received token object:', res);
+
+          // ✅ ONLY the JWT
+          localStorage.setItem('token', res.token);
+
+          console.log(
+            '✅ Token stored:',
+            localStorage.getItem('token')
+          );
+          this.token = res.token;
           this.loginForm.reset();
           this.router.navigate(['/home']);
           this.showBootstrapAlert('Login successful!', 'success');
+          console.log('✅ Login successful, token stored.', localStorage.getItem('token'));
         },
         error: (err) => {
           let msg = 'Login failed. Please try again.';
           if (err.status === 0) msg = 'Server unreachable.';
-          else if (err.status === 403) msg = 'Invalid credentials.';
+          else if (err.status === 401 || err.status === 403) msg = 'Invalid credentials.';
           this.showBootstrapAlert(msg, 'danger');
         }
       });
